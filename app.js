@@ -1,18 +1,34 @@
+const { Router } = require("express");
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 
+const User = require("./model/User");
+
 // Middleware
+app.use("/user", () => {
+  console.log("This is middle ware");
+});
+
+// get request with 2 parameters
+// app.get("/:email/:password", function(req, res){
+//     console.log(req.params.email)
+//     console.log(req.params.password)
+// })
 
 // ROUTES
 
-app.get("/", (req, res) => {
-  res.send("I'm here");
+// Get all the users
+app.get("/user", (req, res) => {
+  res.send("I'm inside the users");
 });
 
-app.get("/posts", (req, res) => {
-  res.send("I'm inside posts");
+//save a post
+app.get("/", (req, res) => {
+  res.send;
 });
+
+// Create a user
 
 //connect the mongoDB to this node application
 mongoose.connect(
