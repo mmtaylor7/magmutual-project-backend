@@ -69,6 +69,18 @@ app.get("/getByDateRange/:startDate/:endDate", async (req, res) => {
   }
 });
 
+app.get("/getByCountry/:country", async (req, res) => {
+  try {
+    //find() -> get all the data
+    const users = await User.find({ country: req.params.country });
+    console.log(req.params.country);
+    res.json(users);
+  } catch (err) {
+    console.log("error:", err);
+    res.json({ message: err });
+  }
+});
+
 //connect the mongoDB to this node application
 mongoose.connect(
   "mongodb+srv://mm43678:revolution9@magmugtualprojectinstan.vrjwm.mongodb.net/magmutual-project-database?retryWrites=true&w=majority",
