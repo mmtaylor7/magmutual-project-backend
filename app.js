@@ -6,9 +6,18 @@ const mongoose = require("mongoose");
 const User = require("./model/User");
 
 // Middleware
-// app.use("/user", () => {
-//   console.log("This is middle ware");
-// });
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested, Content-Type, Accept Authorization"
+  );
+  if (req.method === "OPTIONS") {
+    res.header("Access-Control-Allow-Methods", "POST, PUT, PATCH, GET, DELETE");
+    return res.status(200).json({});
+  }
+  next();
+});
 
 // ROUTES
 
