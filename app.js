@@ -46,18 +46,23 @@ app.get("/getByProfession/:profession", async (req, res) => {
   }
 });
 
+//express helps us to make api calls faster in node- app.get req.params req, res is express syntax
 // get request with 2 parameters; start and end date
+// 2 ways to pass data into an api call; by putting in requestparameter in url and request body with no different url and you pass data (not in this project)
+//colon in url tells us its a req param
+//res is an object that has methods that help you send a response back to front end; res helps you send the response more easily
 app.get("/getByDateRange/:startDate/:endDate", async (req, res) => {
-  console.log(req.params.startDate);
-  console.log(req.params.endDate);
+  //   console.log("req.params.startDate", req.params.startDate);
+  //   console.log("req.params.endDate", req.params.endDate);
   try {
     const users = await User.find({
       //query today up to tonight
       dateCreated: {
-        // $gte: "2012-07-25",
-        // $lt: "2025-07-25",
-        $gte: startDate,
-        $lt: endDate,
+        // $gte: "2012-07-25", greater than or equal
+        // $lt: "2025-07-25", less than
+        //this is how I am able to search within a range of dates with the dates in the DB as strings instead of mongodb date types
+        $gte: req.params.startDate,
+        $lt: req.params.endDate,
       },
     });
     res.json(users);
@@ -70,7 +75,7 @@ app.get("/getByDateRange/:startDate/:endDate", async (req, res) => {
 app.get("/getByCountry/:country", async (req, res) => {
   try {
     //find() -> get all the data
-    const users = await User.find({ country: req.params.country });
+    const users = await User.find({ country: req.params.country }); //User= tells MongoDB the collection to find from
     console.log(req.params.country);
     res.json(users);
   } catch (err) {
