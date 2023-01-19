@@ -11,21 +11,18 @@ app.use(cors());
 // ROUTES
 
 // Get all the users
-app.get("/users", async (req, res) => {
-  try {
-    //find() -> get all the data
-    const users = await User.find();
-    res.json(users);
-  } catch (err) {
-    res.json({ message: err });
-  }
-});
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+}
 
 //get a specific user by last name
 app.get("/getByLastName/:lastname", async (req, res) => {
   try {
     //find() -> get all the data
-    const users = await User.find({ lastname: req.params.lastname });
+    const users = await User.find({
+      lastname: capitalizeFirstLetter(req.params.lastname),
+    });
     res.json(users);
   } catch (err) {
     console.log("error:", err);
@@ -37,7 +34,9 @@ app.get("/getByLastName/:lastname", async (req, res) => {
 app.get("/getByProfession/:profession", async (req, res) => {
   try {
     //find() -> get all the data
-    const users = await User.find({ profession: req.params.profession });
+    const users = await User.find({
+      profession: req.params.profession.toLowerCase(),
+    });
     console.log(req.params.profession);
     res.json(users);
   } catch (err) {
@@ -75,7 +74,9 @@ app.get("/getByDateRange/:startDate/:endDate", async (req, res) => {
 app.get("/getByCountry/:country", async (req, res) => {
   try {
     //find() -> get all the data
-    const users = await User.find({ country: req.params.country }); //User= tells MongoDB the collection to find from
+    const users = await User.find({
+      country: capitalizeFirstLetter(req.params.country),
+    }); //User= tells MongoDB the collection to find from
     console.log(req.params.country);
     res.json(users);
   } catch (err) {
